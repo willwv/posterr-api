@@ -13,10 +13,27 @@ namespace Infrastructure.Databases.MySql.Repositories
             _context = context;
         }
 
-        public async Task<IList<Post>> GetAllPostsAsync(int skip, int take, CancellationToken cancellationToken) => await this._context.Posts.AsNoTracking()
+        public async Task<IList<Post>> GetAllPostsAsync(int userId, bool onlyMine, DateTime? fromDate, int skip, int take, CancellationToken cancellationToken)
+        {
+            var query = this._context.Posts.AsNoTracking()
+            .OrderByDescending(post => post.CreatedAt)
+            .AsQueryable();
+
+            if(onlyMine)
+            {
+                query  = query.Where(post => post.UserId.Equals(userId));
+            }
+
+            if(fromDate is not null)
+            {
+                query  = query.Where(post => post.CreatedAt >= fromDate);
+            }
+
+            return await query
             .Skip(skip)
             .Take(take)
             .ToListAsync(cancellationToken);
+        }
 
         public async Task<Post> CreatePostAsync(Post post, CancellationToken cancellationToken)
         {

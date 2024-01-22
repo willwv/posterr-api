@@ -3,5 +3,5 @@ using MediatR;
 
 namespace Application.Queries
 {
-    public record GetAllPostsQuery : IRequest<List<Post>>;
+    public record GetAllPostsQuery(int UserId, int Page, int ItensPerPage, bool OnlyMine, DateTime? FromDate) : IRequest<IList<Post>>;
 }

@@ -16,8 +16,6 @@ services:
       - DBHOST=database
       - ASPNETCORE_ENVIRONMENT=Development
       - SQL_CONNECTION_STRING=server=localhost;user id=mac;password=hw8vup5e;database=productsdb;
-    networks:
-      - mynetwork
       
   database:
     image: mysql:latest
@@ -34,12 +32,6 @@ services:
       MYSQL_USER: mac
       MYSQL_PASSWORD: hw8vup5e
       MYSQL_DATABASE: productsdb
-    networks:
-      - mynetwork
-
-networks:
-  mynetwork:
-    driver: bridge
-
+      
 volumes:
   db-volume:
