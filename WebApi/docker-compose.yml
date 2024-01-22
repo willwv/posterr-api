@@ -1,0 +1,45 @@
+version: '3.4'
+services:
+  apimysqldocker:
+    image: posterr3
+    container_name: posterapi3
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on: 
+      - database
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+    environment: 
+      - DBHOST=database
+      - ASPNETCORE_ENVIRONMENT=Development
+      - SQL_CONNECTION_STRING=server=localhost;user id=mac;password=hw8vup5e;database=productsdb;
+    networks:
+      - mynetwork
+      
+  database:
+    image: mysql:latest
+    container_name: mysqldb
+    ports:
+      - "3306:3306"
+    expose: 
+      - 3306
+    volumes:
+      - db-volume:/var/lib/mysql
+    restart: always
+    environment: 
+      MYSQL_ROOT_PASSWORD: hw8vup5e
+      MYSQL_USER: mac
+      MYSQL_PASSWORD: hw8vup5e
+      MYSQL_DATABASE: productsdb
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
+
+volumes:
+  db-volume:
