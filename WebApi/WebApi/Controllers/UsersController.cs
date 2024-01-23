@@ -65,10 +65,17 @@ namespace WebApi.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, Description = "Post created.", Type = typeof(Post))]
         public async Task<IActionResult> CreatePost([FromBody] CreatePostRequest request)
         {
-            var createPostCommand = new CreatePostCommand(Constants.MOCKED_CURRENT_USERID, request.PostContent);
-            var result = await _mediator.Send(createPostCommand);
+            if (request.IsValidRequest())
+            {
+                var createPostCommand = new CreatePostCommand(Constants.MOCKED_CURRENT_USERID, request.PostContent);
+                var result = await _mediator.Send(createPostCommand);
 
-            return Ok(result);
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(request.InvalidRequestMessage);
+            }
         }
     }
 }

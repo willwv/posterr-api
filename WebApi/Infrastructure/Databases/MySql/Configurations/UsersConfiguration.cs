@@ -10,8 +10,13 @@ namespace Infrastructure.Databases.MySql.Configurations
         {
             builder.ToTable("Users");
             builder.HasKey(user => user.Id);
-            builder.HasIndex(user => user.Id).IsUnique();
-            builder.Property(user => user.UserName).IsRequired();
+            builder.HasIndex(user => user.Id)
+                .IsUnique();
+            builder.HasIndex(user => user.UserName)
+                .IsUnique();
+            builder.Property(user => user.UserName)
+                .IsRequired()
+                .HasMaxLength(14);
             builder.HasMany(user => user.Posts)
                 .WithOne(post => post.User)
                 .HasForeignKey(user => user.Id);
