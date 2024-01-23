@@ -5,12 +5,11 @@ using Infrastructure.Databases.MySql;
 using Infrastructure.Databases.MySql.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-var MySqlConnectionString = "server=localhost;user id=mac;password=hw8vup5e;database=productsdb;";
-    //Environment.GetEnvironmentVariable("SQL_CONNECTION_STRING");
+var MySqlConnectionString = Environment.GetEnvironmentVariable("SQL_CONNECTION_STRING");
 
-Console.WriteLine("ConnectionString: " + MySqlConnectionString);
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -48,5 +47,9 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.ApplyMySqlMigrations();
+
+app.SeedDatabase();
 
 app.Run();

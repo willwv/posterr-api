@@ -1,8 +1,8 @@
 version: '3.4'
 services:
   apimysqldocker:
-    image: posterr3
-    container_name: posterapi3
+    image: posterr
+    container_name: posterapi
     build:
       context: .
       dockerfile: Dockerfile
@@ -15,7 +15,7 @@ services:
     environment: 
       - DBHOST=database
       - ASPNETCORE_ENVIRONMENT=Development
-      - SQL_CONNECTION_STRING=server=localhost;user id=mac;password=hw8vup5e;database=productsdb;
+      - SQL_CONNECTION_STRING=server=database; userid=mac;pwd=hw8vup5e;port=3306;database=productsdb;
       
   database:
     image: mysql:latest

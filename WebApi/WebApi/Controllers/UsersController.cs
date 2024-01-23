@@ -67,7 +67,13 @@ namespace WebApi.Controllers
         {
             if (request.IsValidRequest())
             {
-                var createPostCommand = new CreatePostCommand(Constants.MOCKED_CURRENT_USERID, request.PostContent);
+                var createPostCommand = new CreatePostCommand(Constants.MOCKED_CURRENT_USERID, 
+                    request.PostContent,
+                    request.IsRepost, 
+                    request.IsQUote, 
+                    request.Quote, 
+                    request.OriginalPostId);
+
                 var result = await _mediator.Send(createPostCommand);
 
                 return Ok(result);

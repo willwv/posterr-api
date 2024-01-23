@@ -11,7 +11,8 @@ namespace Infrastructure.Databases.MySql.Configurations
             builder.ToTable("Posts");
             builder.HasKey(post => post.Id);
             builder.HasIndex(post => post.Id).IsUnique();
-            builder.Property(post => post.Content).HasMaxLength(777);
+            builder.Property(post => post.Content).HasMaxLength(777).IsRequired(false);
+            builder.Property(post => post.Quote).HasMaxLength(777).IsRequired(false);
             builder.HasOne(post => post.User)
                 .WithMany(user => user.Posts)
                 .HasForeignKey(post => post.UserId);

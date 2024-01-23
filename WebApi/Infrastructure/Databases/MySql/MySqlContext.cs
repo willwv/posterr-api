@@ -5,7 +5,7 @@ namespace Infrastructure.Databases.MySql
 {
     public class MySqlContext : DbContext
     {
-        public MySqlContext(DbContextOptions options) : base(options)
+        public MySqlContext(DbContextOptions<MySqlContext> options) : base(options)
         {
             
         }

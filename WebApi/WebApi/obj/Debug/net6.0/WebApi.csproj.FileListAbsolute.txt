@@ -63,3 +63,4 @@ C:\Repos\posterr-api\WebApi\WebApi\obj\Debug\net6.0\refint\WebApi.dll
 C:\Repos\posterr-api\WebApi\WebApi\obj\Debug\net6.0\WebApi.pdb
 C:\Repos\posterr-api\WebApi\WebApi\obj\Debug\net6.0\WebApi.genruntimeconfig.cache
 C:\Repos\posterr-api\WebApi\WebApi\obj\Debug\net6.0\ref\WebApi.dll
+C:\Repos\posterr-api\WebApi\WebApi\obj\Debug\net6.0\WebApi.MvcApplicationPartsAssemblyInfo.cs

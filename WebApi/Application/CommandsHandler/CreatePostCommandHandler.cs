@@ -15,11 +15,30 @@ namespace Application.CommandsHandler
         }
         public async Task<Post> Handle(CreatePostCommand request, CancellationToken cancellationToken)
         {
-            var newPost = new Post(request.UserId, request.PostContent, DateTime.UtcNow);
+            Post newPost;
+
+            if (request.IsRepost)
+            {
+                newPost = CreateRepost(request);
+            }
+            else if (request.IsQUote)
+            {
+                newPost = CreateQuote(request);
+            }
+            else
+            {
+                newPost = CreatePost(request);
+            }
 
             var post = await _postRepository.CreatePostAsync(newPost, cancellationToken);
 
             return post;
         }
+
+        private static Post CreatePost(CreatePostCommand request) => new(request.UserId, request.PostContent);
+        private static Post CreateRepost(CreatePostCommand request) => new(request.UserId, request.OriginalPostId!, request.IsRepost);
+        private static Post CreateQuote(CreatePostCommand request) => new(request.UserId, request.OriginalPostId!, request.IsQUote, request.Quote);
+
+
     }
 }
