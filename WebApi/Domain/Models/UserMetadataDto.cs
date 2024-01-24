@@ -1,6 +1,7 @@
 ﻿namespace Domain.Models
 {
-    public record UserMetadataDto {
+    public record UserMetadataDto
+    {
         public UserMetadataDto(int postQuantity, string userName, DateTime dateJoined)
         {
             PostQuantity = postQuantity;

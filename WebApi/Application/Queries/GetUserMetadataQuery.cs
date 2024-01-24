@@ -3,6 +3,6 @@ using MediatR;
 
 namespace Application.Queries
 {
-    public record GetUserMetadataQuery(int UserId) : IRequest<UserMetadataDto>;
+    public record GetUserMetadataQuery(int UserId) : IRequest<UserMetadataDto?>;
 }
 

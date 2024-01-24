@@ -26,7 +26,7 @@ namespace WebApi.Extensions
             using (var context = serviceScope.ServiceProvider.GetService<MySqlContext>())
             {
                 //Avoid to apply seeds again
-                if (context.Users.Any())
+                if (context.Users.Any() && Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
                 {
                     return app;
                 }
@@ -42,9 +42,9 @@ namespace WebApi.Extensions
                 context.SaveChanges();
 
                 //William is selling a car
-                var williamsPost = new Post 
-                { 
-                    UserId = william.Id, 
+                var williamsPost = new Post
+                {
+                    UserId = william.Id,
                     Content = "I'm selling a car, anyone interested please get in touch!",
                     CreatedAt = DateTime.UtcNow.Subtract(TimeSpan.FromDays(1)),
                     IsQUote = false,

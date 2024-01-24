@@ -11,6 +11,7 @@ namespace Tests.UnitTests.Application.CommandsHandler
     public class CreatePostCommandHandlerTests
     {
         private Mock<IPostRepository> _postRepository;
+        private Mock<IUserRepository> _userRepository;
 
         [TestMethod]
         public async Task CreateValidPost()
@@ -24,11 +25,12 @@ namespace Tests.UnitTests.Application.CommandsHandler
                 null,
                 null);
 
+            _userRepository.Setup(method => method.GetUserById(SharedMocks.MockedCurrentUserId)).ReturnsAsync(new User { Id = SharedMocks.MockedCurrentUserId, CreatedAt = SharedMocks.MockedRandomDate, UserName = "Mocked User" });
             _postRepository.Setup(method => method.VerifyUsersPostsToday(SharedMocks.MockedCurrentUserId)).ReturnsAsync(false);
             _postRepository.Setup(method => method.VerifyPostIsQuote(1)).ReturnsAsync(false);
             _postRepository.Setup(method => method.VerifyPostIsRepost(1)).ReturnsAsync(false);
-            _postRepository.Setup(method => method.CreatePostAsync(It.IsAny<Post>(), It.IsAny<CancellationToken>())).ReturnsAsync(new Post 
-            { 
+            _postRepository.Setup(method => method.CreatePostAsync(It.IsAny<Post>(), It.IsAny<CancellationToken>())).ReturnsAsync(new Post
+            {
                 Id = 1,
                 CreatedAt = DateTime.UtcNow,
                 Content = commandRequest.PostContent,
@@ -47,6 +49,7 @@ namespace Tests.UnitTests.Application.CommandsHandler
             _postRepository.Verify(method => method.CreatePostAsync(It.IsAny<Post>(), It.IsAny<CancellationToken>()), Times.Once);
             _postRepository.Verify(method => method.VerifyPostIsQuote(1), Times.Never);
             _postRepository.Verify(method => method.VerifyPostIsRepost(1), Times.Never);
+            _userRepository.Verify(method => method.GetUserById(SharedMocks.MockedCurrentUserId), Times.Once);
         }
 
         [TestMethod]
@@ -61,6 +64,7 @@ namespace Tests.UnitTests.Application.CommandsHandler
                 "Mocked Quote!",
                 1);
 
+            _userRepository.Setup(method => method.GetUserById(SharedMocks.MockedCurrentUserId)).ReturnsAsync(new User { Id = SharedMocks.MockedCurrentUserId, CreatedAt = SharedMocks.MockedRandomDate, UserName = "Mocked User" });
             _postRepository.Setup(method => method.VerifyUsersPostsToday(SharedMocks.MockedCurrentUserId)).ReturnsAsync(false);
             _postRepository.Setup(method => method.VerifyPostIsQuote(1)).ReturnsAsync(false);
             _postRepository.Setup(method => method.VerifyPostIsRepost(1)).ReturnsAsync(false);
@@ -84,6 +88,7 @@ namespace Tests.UnitTests.Application.CommandsHandler
             _postRepository.Verify(method => method.CreatePostAsync(It.IsAny<Post>(), It.IsAny<CancellationToken>()), Times.Once);
             _postRepository.Verify(method => method.VerifyPostIsQuote(1), Times.Once);
             _postRepository.Verify(method => method.VerifyPostIsRepost(1), Times.Never);
+            _userRepository.Verify(method => method.GetUserById(SharedMocks.MockedCurrentUserId), Times.Once);
         }
 
         [TestMethod]
@@ -135,6 +140,7 @@ namespace Tests.UnitTests.Application.CommandsHandler
                 null,
                 1);
 
+            _userRepository.Setup(method => method.GetUserById(SharedMocks.MockedCurrentUserId)).ReturnsAsync(new User { Id = SharedMocks.MockedCurrentUserId, CreatedAt = SharedMocks.MockedRandomDate, UserName = "Mocked User" });
             _postRepository.Setup(method => method.VerifyUsersPostsToday(SharedMocks.MockedCurrentUserId)).ReturnsAsync(false);
             _postRepository.Setup(method => method.VerifyPostIsQuote(1)).ReturnsAsync(false);
             _postRepository.Setup(method => method.VerifyPostIsRepost(1)).ReturnsAsync(false);
@@ -157,6 +163,7 @@ namespace Tests.UnitTests.Application.CommandsHandler
             _postRepository.Verify(method => method.CreatePostAsync(It.IsAny<Post>(), It.IsAny<CancellationToken>()), Times.Once);
             _postRepository.Verify(method => method.VerifyPostIsQuote(1), Times.Never);
             _postRepository.Verify(method => method.VerifyPostIsRepost(1), Times.Once);
+            _userRepository.Verify(method => method.GetUserById(SharedMocks.MockedCurrentUserId), Times.Once);
         }
 
         [TestMethod]
@@ -233,7 +240,8 @@ namespace Tests.UnitTests.Application.CommandsHandler
         private CreatePostCommandHandler ObterHandler()
         {
             _postRepository = new Mock<IPostRepository>();
-            return new CreatePostCommandHandler(_postRepository.Object);
+            _userRepository = new Mock<IUserRepository>();
+            return new CreatePostCommandHandler(_postRepository.Object, _userRepository.Object);
         }
     }
 }

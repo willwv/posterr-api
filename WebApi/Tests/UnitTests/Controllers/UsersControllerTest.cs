@@ -20,7 +20,7 @@ namespace Tests.UnitTests.Controllers
         {
             var mockMediatr = new Mock<IMediator>();
             mockMediatr.Setup(method => method.Send(It.IsAny<GetUserMetadataQuery>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new UserMetadataDto (10, "Mocked User", DateTime.UtcNow.AddDays(-1)));
+                .ReturnsAsync(new UserMetadataDto(10, "Mocked User", DateTime.UtcNow.AddDays(-1)));
 
             var controller = new UsersController(mockMediatr.Object);
 
@@ -30,11 +30,25 @@ namespace Tests.UnitTests.Controllers
         }
 
         [TestMethod]
+        public async Task GetUserData_NotFoundResult()
+        {
+            var mockMediatr = new Mock<IMediator>();
+            mockMediatr.Setup(method => method.Send(It.IsAny<GetUserMetadataQuery>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(default(UserMetadataDto));
+
+            var controller = new UsersController(mockMediatr.Object);
+
+            var result = await controller.GetUserData(Constants.MOCKED_CURRENT_USERID);
+
+            Assert.IsTrue(result is NotFoundResult);
+        }
+
+        [TestMethod]
         public async Task GetUserPosts_OkResult()
         {
             var mockMediatr = new Mock<IMediator>();
             mockMediatr.Setup(method => method.Send(It.IsAny<GetAllPostsQuery>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(SharedMocks.GetMockedPostsList(Constants.MOCKED_CURRENT_USERID));
+                .ReturnsAsync(SharedMocks.GetMockedPostsDtoList(Constants.MOCKED_CURRENT_USERID));
 
             var controller = new UsersController(mockMediatr.Object);
 
@@ -48,7 +62,7 @@ namespace Tests.UnitTests.Controllers
         {
             var mockMediatr = new Mock<IMediator>();
             mockMediatr.Setup(method => method.Send(It.IsAny<GetAllPostsQuery>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new List<Post>() { });
+                .ReturnsAsync(new List<PostDto>() { });
 
             var controller = new UsersController(mockMediatr.Object);
 
@@ -64,18 +78,17 @@ namespace Tests.UnitTests.Controllers
             mockMediatr.Setup(method => method.Send(It.IsAny<CreatePostCommand>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new CreatePostDto
                 {
-                    Post = new Post
-                    {
-                        Id = 1,
-                        Content = "Mocked Post!",
-                        CreatedAt = DateTime.UtcNow.AddDays(-1),
-                        IsQUote = false,
-                        IsRepost = false,
-                        Quote = null,
-                        OriginalPostId = null,
-                        User = null,
-                        UserId = Constants.MOCKED_CURRENT_USERID
-                    }
+                    Post = new PostDto
+                    (
+                        1,
+                        "Mocked Post!",
+                        DateTime.UtcNow.AddDays(-1),
+                        new UserDto(SharedMocks.MockedCurrentUserId, "Mocked User", DateTime.UtcNow),
+                        false,
+                        false,
+                        null,
+                        null
+                    )
                 });
 
             var controller = new UsersController(mockMediatr.Object);

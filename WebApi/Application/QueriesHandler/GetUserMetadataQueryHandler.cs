@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.QueriesHandler
 {
-    public class GetUserMetadataQueryHandler : IRequestHandler<GetUserMetadataQuery, UserMetadataDto>
+    public class GetUserMetadataQueryHandler : IRequestHandler<GetUserMetadataQuery, UserMetadataDto?>
     {
         private readonly IUserRepository _userRepository;
 
@@ -14,7 +14,7 @@ namespace Application.QueriesHandler
             _userRepository = userRepository;
         }
 
-        public async Task<UserMetadataDto> Handle(GetUserMetadataQuery request, CancellationToken cancellationToken)
+        public async Task<UserMetadataDto?> Handle(GetUserMetadataQuery request, CancellationToken cancellationToken)
         {
             var userMetadata = await _userRepository.GetUserMetadata(request.UserId, cancellationToken);
             return userMetadata;

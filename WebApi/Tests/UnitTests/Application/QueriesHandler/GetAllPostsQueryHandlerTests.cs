@@ -1,7 +1,6 @@
 ﻿using Application.Queries;
 using Application.QueriesHandler;
 using Domain.Interfaces.Repositories;
-using Infrastructure.Databases.MySql.Repositories;
 using Moq;
 using Tests.UnitTests.Shared;
 
@@ -61,7 +60,7 @@ namespace Tests.UnitTests.Application.QueriesHandler
             var queryResul = await querydHandler.Handle(queryRequest, new CancellationToken());
 
             Assert.IsNotNull(queryResul);
-            Assert.IsTrue(queryResul.All(post => post.UserId == SharedMocks.MockedCurrentUserId));
+            Assert.IsTrue(queryResul.All(post => post.User.Id == SharedMocks.MockedCurrentUserId));
             _postRepository.Verify(method => method.GetAllPostsAsync(queryRequest.UserId, queryRequest.OnlyMine, queryRequest.FromDate, skipItens, queryRequest.ItensPerPage, new CancellationToken()), Times.Once);
         }
 

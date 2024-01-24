@@ -1,11 +1,9 @@
-﻿using Application.Commands;
-using Application.Queries;
-using Domain.Entities;
+﻿using Application.Queries;
+using Domain.Models;
 using Domain.Utils;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using WebApi.Controllers.Requests;
 
 namespace WebApi.Controllers
 {
@@ -22,7 +20,7 @@ namespace WebApi.Controllers
 
         [HttpGet]
         [SwaggerOperation(Summary = "Returns the 10 last posts. It is possible to filter the request to obtain the next 10 posts, obtain only the current user's posts and filter from a specific date.")]
-        [SwaggerResponse(StatusCodes.Status200OK, Description = "List containing users posts.", Type = typeof(IList<Post>))]
+        [SwaggerResponse(StatusCodes.Status200OK, Description = "List containing users posts.", Type = typeof(IList<PostDto>))]
         [SwaggerResponse(StatusCodes.Status204NoContent, Description = "Users have not yet made a post or the filters entered are outside the range of posts saved in the database.")]
         public async Task<IActionResult> GetAllPosts([FromQuery] int page = 0, [FromQuery] bool onlyMine = false, [FromQuery] DateTime? fromDate = null)
         {

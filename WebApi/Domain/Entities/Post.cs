@@ -1,6 +1,8 @@
-﻿namespace Domain.Entities
+﻿using Domain.Models;
+
+namespace Domain.Entities
 {
-    public record Post
+    public class Post
     {
         public Post() { }
         public Post(int userId, string content)
@@ -35,5 +37,15 @@
         public bool IsQUote { get; set; }
         public string? Quote { get; set; }
         public int? OriginalPostId { get; set; }
+
+        public PostDto ToPostDto() => new(
+                Id,
+                Content,
+                CreatedAt,
+                User!.ToUserDto(),
+                IsRepost,
+                IsQUote,
+                Quote,
+                OriginalPostId);
     }
 }

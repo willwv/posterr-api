@@ -1,5 +1,4 @@
-﻿using Domain.Entities;
-using Domain.Models;
+﻿using Domain.Models;
 using MediatR;
 
 namespace Application.Commands

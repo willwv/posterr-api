@@ -17,17 +17,18 @@ namespace Infrastructure.Databases.MySql.Repositories
         public async Task<IList<Post>> GetAllPostsAsync(int userId, bool onlyMine, DateTime? fromDate, int skip, int take, CancellationToken cancellationToken)
         {
             var query = this._context.Posts.AsNoTracking()
-            .OrderByDescending(post => post.CreatedAt)
-            .AsQueryable();
+                .Include(post => post.User)
+                .OrderByDescending(post => post.CreatedAt)
+                .AsQueryable();
 
-            if(onlyMine)
+            if (onlyMine)
             {
-                query  = query.Where(post => post.UserId.Equals(userId));
+                query = query.Where(post => post.UserId.Equals(userId));
             }
 
-            if(fromDate is not null)
+            if (fromDate is not null)
             {
-                query  = query.Where(post => post.CreatedAt >= fromDate);
+                query = query.Where(post => post.CreatedAt >= fromDate);
             }
 
             return await query
@@ -40,7 +41,6 @@ namespace Infrastructure.Databases.MySql.Repositories
         {
             await this._context.Posts.AddAsync(post, cancellationToken);
             this._context.SaveChanges();
-
             return post;
         }
 

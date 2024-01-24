@@ -15,7 +15,7 @@ services:
     environment: 
       - DBHOST=database
       - ASPNETCORE_ENVIRONMENT=Development
-      - SQL_CONNECTION_STRING=server=database; userid=mac;pwd=hw8vup5e;port=3306;database=productsdb;
+      - SQL_CONNECTION_STRING=server=database; userid=YOURUSER;pwd=R4nd0mG3n3r4t3dP@ssw0rd;port=3306;database=productsdb;
       
   database:
     image: mysql:latest
@@ -28,9 +28,9 @@ services:
       - db-volume:/var/lib/mysql
     restart: always
     environment: 
-      MYSQL_ROOT_PASSWORD: hw8vup5e
-      MYSQL_USER: mac
-      MYSQL_PASSWORD: hw8vup5e
+      MYSQL_ROOT_PASSWORD: R4nd0mG3n3r4t3dP@ssw0rd
+      MYSQL_USER: YOURUSER
+      MYSQL_PASSWORD: R4nd0mG3n3r4t3dP@ssw0rd
       MYSQL_DATABASE: productsdb
       
 volumes:

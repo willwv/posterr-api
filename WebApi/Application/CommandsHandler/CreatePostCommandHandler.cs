@@ -10,11 +10,13 @@ namespace Application.CommandsHandler
     public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, CreatePostDto>
     {
         private readonly IPostRepository _postRepository;
+        private readonly IUserRepository _userRepository;
         private IList<string> InvalidRequestMessage { get; set; }
 
-        public CreatePostCommandHandler(IPostRepository postRepository)
+        public CreatePostCommandHandler(IPostRepository postRepository, IUserRepository userRepository)
         {
             _postRepository = postRepository;
+            _userRepository = userRepository;
             InvalidRequestMessage = new List<string>();
         }
         public async Task<CreatePostDto> Handle(CreatePostCommand request, CancellationToken cancellationToken)
@@ -28,7 +30,7 @@ namespace Application.CommandsHandler
             }
             else
             {
-                if(await IsValidRequest(request)) 
+                if (await IsValidRequest(request))
                 {
                     return await CreateNewPost(request, cancellationToken);
                 }
@@ -57,8 +59,11 @@ namespace Application.CommandsHandler
             }
 
             var post = await _postRepository.CreatePostAsync(newPost, cancellationToken);
+            var user = await _userRepository.GetUserById(post.UserId);
 
-            return new CreatePostDto { Post = post };
+            post.User = user;
+
+            return new CreatePostDto { Post = post.ToPostDto() };
         }
         public async Task<bool> IsValidRequest(CreatePostCommand request)
         {
