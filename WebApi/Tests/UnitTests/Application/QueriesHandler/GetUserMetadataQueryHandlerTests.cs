@@ -7,6 +7,7 @@ using Tests.UnitTests.Shared;
 
 namespace Tests.UnitTests.Application.QueriesHandler
 {
+    [TestClass]
     public class GetUserMetadataQueryHandlerTests
     {
         private Mock<IUserRepository> _userRepository;
