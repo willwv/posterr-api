@@ -17,7 +17,7 @@ namespace WebApi.Extensions
             return app;
         }
 
-        public static IApplicationBuilder SeedDatabase(this IApplicationBuilder app)
+        public static IApplicationBuilder SeedMySqlDatabase(this IApplicationBuilder app)
         {
             using var serviceScope = app.ApplicationServices
                             .GetRequiredService<IServiceScopeFactory>()
@@ -32,11 +32,11 @@ namespace WebApi.Extensions
                 }
 
                 //Creating Users
-                var william = new User { UserName = "William" };
-                var rafaela = new User { UserName = "Rafaela" };
-                var joana = new User { UserName = "Joana" };
-                var patrick = new User { UserName = "Patrick" };
-                var fabio = new User { UserName = "fabio" };
+                var william = new User { UserName = "William", CreatedAt = DateTime.UtcNow.Subtract(TimeSpan.FromDays(1)) };
+                var rafaela = new User { UserName = "Rafaela", CreatedAt = DateTime.UtcNow.Subtract(TimeSpan.FromDays(1)) };
+                var joana = new User { UserName = "Joana", CreatedAt = DateTime.UtcNow.Subtract(TimeSpan.FromDays(1)) };
+                var patrick = new User { UserName = "Patrick", CreatedAt = DateTime.UtcNow.Subtract(TimeSpan.FromDays(1)) };
+                var fabio = new User { UserName = "fabio", CreatedAt = DateTime.UtcNow.Subtract(TimeSpan.FromDays(1)) };
 
                 context.Users.AddRange(new List<User> { william, rafaela, joana, patrick, fabio });
                 context.SaveChanges();
@@ -46,7 +46,7 @@ namespace WebApi.Extensions
                 { 
                     UserId = william.Id, 
                     Content = "I'm selling a car, anyone interested please get in touch!",
-                    CreatedAt = DateTime.UtcNow,
+                    CreatedAt = DateTime.UtcNow.Subtract(TimeSpan.FromDays(1)),
                     IsQUote = false,
                     IsRepost = false,
                     Quote = null,
@@ -60,7 +60,7 @@ namespace WebApi.Extensions
                 {
                     UserId = rafaela.Id,
                     Content = null,
-                    CreatedAt = DateTime.UtcNow,
+                    CreatedAt = DateTime.UtcNow.Subtract(TimeSpan.FromDays(1)),
                     IsQUote = false,
                     IsRepost = true,
                     Quote = null,
@@ -74,7 +74,7 @@ namespace WebApi.Extensions
                 {
                     UserId = william.Id,
                     Content = null,
-                    CreatedAt = DateTime.UtcNow,
+                    CreatedAt = DateTime.UtcNow.Subtract(TimeSpan.FromDays(1)),
                     IsQUote = true,
                     IsRepost = false,
                     Quote = "I managed to sell my car thanks to your repost!",
@@ -88,7 +88,7 @@ namespace WebApi.Extensions
                 {
                     UserId = joana.Id,
                     Content = "I'm looking forward to going to the beach",
-                    CreatedAt = DateTime.UtcNow,
+                    CreatedAt = DateTime.UtcNow.Subtract(TimeSpan.FromDays(1)),
                     IsQUote = false,
                     IsRepost = false,
                     Quote = null,
@@ -98,7 +98,7 @@ namespace WebApi.Extensions
                 {
                     UserId = joana.Id,
                     Content = "I almost forgot sunscreen...",
-                    CreatedAt = DateTime.UtcNow,
+                    CreatedAt = DateTime.UtcNow.Subtract(TimeSpan.FromDays(1)),
                     IsQUote = false,
                     IsRepost = false,
                     Quote = null,
@@ -108,7 +108,7 @@ namespace WebApi.Extensions
                 {
                     UserId = joana.Id,
                     Content = "What bad luck, I arrived at the beach and it started to rain",
-                    CreatedAt = DateTime.UtcNow,
+                    CreatedAt = DateTime.UtcNow.Subtract(TimeSpan.FromDays(1)),
                     IsQUote = false,
                     IsRepost = false,
                     Quote = null,
@@ -122,7 +122,7 @@ namespace WebApi.Extensions
                 {
                     UserId = fabio.Id,
                     Content = null,
-                    CreatedAt = DateTime.UtcNow,
+                    CreatedAt = DateTime.UtcNow.Subtract(TimeSpan.FromDays(1)),
                     IsQUote = true,
                     IsRepost = false,
                     Quote = "enjoy the beach even in the rain!",
@@ -132,7 +132,7 @@ namespace WebApi.Extensions
                 {
                     UserId = fabio.Id,
                     Content = null,
-                    CreatedAt = DateTime.UtcNow,
+                    CreatedAt = DateTime.UtcNow.Subtract(TimeSpan.FromDays(1)),
                     IsQUote = true,
                     IsRepost = false,
                     Quote = "be careful with the storm",

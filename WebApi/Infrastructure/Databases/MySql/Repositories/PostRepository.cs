@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces.Repositories;
+using Domain.Utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Databases.MySql.Repositories
@@ -42,5 +43,12 @@ namespace Infrastructure.Databases.MySql.Repositories
 
             return post;
         }
+
+        public async Task<bool> VerifyUsersPostsToday(int userId) => await _context.Posts
+                .CountAsync(p => p.UserId == userId && p.CreatedAt.Date == DateTime.Today) >= Constants.POSTS_PER_USER_PER_DAY;
+
+        public async Task<bool> VerifyPostIsRepost(int originalPostId) => await _context.Posts.Where(post => post.Id == originalPostId).AnyAsync(post => post.IsRepost);
+
+        public async Task<bool> VerifyPostIsQuote(int originalPostId) => await _context.Posts.Where(post => post.Id == originalPostId).AnyAsync(post => post.IsQUote);
     }
 }

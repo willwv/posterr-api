@@ -50,6 +50,6 @@ app.MapControllers();
 
 app.ApplyMySqlMigrations();
 
-app.SeedDatabase();
+app.SeedMySqlDatabase();
 
 app.Run();
