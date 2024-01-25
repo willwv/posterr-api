@@ -25,7 +25,7 @@ Done! Now you're able to interact with the API in the URL http://localhost:80/sw
 
 # What happens when you execute docker-compose up
 
-When running docker-compose up, Docker Compose will create and start the containers specified in the docker-compose.yml file. It will also configure networking between the containers, ensuring that the .NET Core application is able to communicate with the MySQL database. 
+When running ```docker-compose up```, Docker Compose will create and start the containers specified in the docker-compose.yml file. It will also configure networking between the containers, ensuring that the .NET Core application is able to communicate with the MySQL database. 
 As it runs, you will see logs indicating the initialization progress of each container.
 
 
@@ -50,9 +50,13 @@ The application uses .NET Core's native dependency injection to facilitate code 
 
 # Tests
 
-This project has unit tests whose objective is to validate the business rules (implemented in the query handlers and command handlers) and validations carried out in the controller, so it does not make sense to implement tests for some layers, such as the infrastructure layer where the best option is an integration test.
+This project has unit tests whose objective is to validate the business rules (implemented in the query handlers and command handlers - Application layer) and validations carried out in the controller (WebApi layer), so it does not make sense to implement tests for some layers, such as the infrastructure layer where the best option is an integration test.
 
 ![Unit Test Report](./Images/UnitTestsReport.png)
+
+## How to generate Test Repost
+
+In Visual Studio: Tools > Nuget Package Manager > Package Manager Console, select "Tests" project and execute ```dotnet test --collect "Xplat Code Coverage"```, after that go to the directory where the report was saved (normally WebApi/Tests/TestResults/{GUID}/coverage.cobertura.xml) and run ```reportgenerator "-reports:.\coverage.cobertura.xml" "-targetdir:coveragereport" -reporttypes:Html```, it will create a new folder named "coveragereport" containing the report in html format (file: index.html).
 
 # Critique
 
