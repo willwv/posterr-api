@@ -1,9 +1,11 @@
 ﻿using Domain.Entities;
 using Infrastructure.Databases.MySql;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace WebApi.Extensions
 {
+    [ExcludeFromCodeCoverage]
     public static class MySqlExtensions
     {
         public static IApplicationBuilder ApplyMySqlMigrations(this IApplicationBuilder app)
