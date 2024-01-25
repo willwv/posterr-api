@@ -52,7 +52,7 @@ The application uses .NET Core's native dependency injection to facilitate code 
 
 This project has unit tests whose objective is to validate the business rules (implemented in the query handlers and command handlers) and validations carried out in the controller, so it does not make sense to implement tests for some layers, such as the infrastructure layer where the best option is an integration test.
 
-![Unit Test Report](./images/UnitTestsReport.png)
+![Unit Test Report](./Images/UnitTestsReport.png)
 
 # Critique
 
