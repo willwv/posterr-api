@@ -61,6 +61,7 @@ In Visual Studio: Tools > Nuget Package Manager > Package Manager Console, selec
 # Critique
 
 - The application accesses the database using the root user, the ideal would be to create a user with fewer permissions for the application;
+- The id of entities could be changed from int to guid for security reasons;
 - In a scenario where many users start to access the application, it would be necessary to implement a caching layer, such as Redis;
 - The application is decoupled from the database, which allows each of the technologies to scale on demand. Furthermore, the CQRS standard allows you to easily integrate with an external cache (e.g. Redis) to alleviate the demand on the database;
 - In the current configuration, in a scenario where many users access the application, the first point to fail would be the database due to concurrency problems and lack of cache.
