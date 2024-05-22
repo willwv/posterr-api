@@ -32,7 +32,15 @@ As it runs, you will see logs indicating the initialization progress of each con
 The project follows the "Database as Code" approach, it means when the .NET container is up, migrations and seeds are automatically applied at application startup.
 These configurations are available in WebApi/Extensions/MySqlExtensions.cs.
 
-You can access the database using [MySql Workbanch](https://dev.mysql.com/downloads/workbench/) using the same credentials entered in the docker-compose.yml file.
+## How to access data in database
+
+You can use any IDE you prefer, but I recommend MySql Workbanch.
+
+Prerequisite: [MySql Workbanch](https://www.mysql.com/products/workbench/)
+
+You can access the database using MySql Workbanch using the same credentials entered in the docker-compose.yml file.
+
+![Workbanch Database Connection Setup](./Images/WorkbanchDatabaseConnectionSetup.png)
 
 # Patterns Used
 
@@ -54,7 +62,25 @@ This project has unit tests whose objective is to validate the business rules (i
 
 ![Unit Test Report](./Images/UnitTestsReport.png)
 
-## How to generate Test Repost
+## How to generate Test Report
+
+Open the terminal in the project root folder and run the following commands:
+
+```cd .\WebApi\Tests\```
+
+and then
+
+```dotnet test --collect "Xplat Code Coverage"```
+
+when the test execution ends, run:
+
+```reportgenerator "-reports:TestResults\*\coverage.cobertura.xml" "-targetdir:coveragereport" -reporttypes:Html```
+
+Now you're able to see the test report by opening WebApi/Tests/coveragereport/index.html
+
+You can also generate the Test Report using Visual Studio:
+
+Prerequisite: [Visual Studio](https://visualstudio.microsoft.com/)
 
 In Visual Studio: Tools > Nuget Package Manager > Package Manager Console, select "Tests" project and execute ```dotnet test --collect "Xplat Code Coverage"```, after that go to the directory where the report was saved (normally WebApi/Tests/TestResults/{GUID}/coverage.cobertura.xml) and run ```reportgenerator "-reports:.\coverage.cobertura.xml" "-targetdir:coveragereport" -reporttypes:Html```, it will create a new folder named "coveragereport" containing the report in html format (file: index.html).
 
